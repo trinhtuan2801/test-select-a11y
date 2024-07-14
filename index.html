@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <button>Normal button</button>
+    <br />
+    <div class="select-component">
+      <button class="select-button">Select</button>
+      <ul class="select-dropdown">
+        <li class="select-option" data-value="1" tabindex="0">Option 1</li>
+        <li class="select-option" data-value="2" tabindex="-1">Option 2</li>
+        <li class="select-option" data-value="3" tabindex="-1">Option 3</li>
+        <li class="select-option" data-value="4" tabindex="-1">Option 4</li>
+        <li class="select-option" data-value="5" tabindex="-1">Option 5</li>
+      </ul>
+    </div>
+    <br />
+    <button style="margin-top: 180px">Normal button</button>
+    
+    <script>
+      const selectButton = document.querySelector('.select-button');
+      const selectDropdown = document.querySelector('.select-dropdown');
+      const selectOptions = Array.from(document.querySelectorAll('.select-option'));
+      let currentValue = null;
+
+      const focusOption = (index) => {
+        let nextIndex = index;
+        if (index <= -1) nextIndex = selectOptions.length - 1;
+        else if (index >= selectOptions.length) nextIndex = 0;
+
+        const currentFocusedOption = document.querySelector('.select-option[tabindex="0"]');
+        currentFocusedOption?.setAttribute('tabindex', '-1');
+
+        selectOptions[nextIndex].tabIndex = 0;
+        selectOptions[nextIndex].focus();
+      };
+
+      selectButton.addEventListener('click', () => {
+        selectDropdown.classList.toggle('open');
+      });
+
+      const onSelectOption = (value) => {
+        currentValue = value;
+        selectOptions.forEach((option) => {
+          if (option.dataset.value === currentValue) {
+            option.classList.add('selected');
+            selectButton.textContent = option.textContent;
+          } else {
+            option.classList.remove('selected');
+          }
+        });
+        selectDropdown.classList.remove('open');
+        setTimeout(() => {
+          selectButton.focus();
+        }, 0);
+      };
+
+      selectButton.addEventListener('keydown', (e) => {
+        const key = e.code;
+
+        if (['ArrowDown', 'ArrowUp'].includes(key)) {
+          if (!selectDropdown.classList.contains('open')) {
+            selectDropdown.classList.add('open');
+          }
+          let chosenIndex = selectOptions.findIndex((li) => li.dataset.value === currentValue);
+          chosenIndex = Math.max(chosenIndex, 0);
+          focusOption(chosenIndex);
+        }
+      });
+
+      selectOptions.forEach((option, index) => {
+        option.addEventListener('keydown', (e) => {
+          const key = e.code;
+          switch (key) {
+            case 'Enter':
+            case 'Space': {
+              onSelectOption(option.dataset.value);
+              break;
+            }
+            case 'ArrowDown':
+            case 'ArrowUp': {
+              focusOption(index + (key === 'ArrowDown' ? 1 : -1));
+              break;
+            }
+            default:
+              break;
+          }
+        });
+        option.addEventListener('click', (e) => {
+          onSelectOption(option.dataset.value);
+        });
+      });
+    </script>
+  </body>
+</html>

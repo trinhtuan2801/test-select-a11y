@@ -1,0 +1,84 @@
+* {
+  font-family: 'Nunito Sans';
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding-top: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.select-component {
+  position: relative;
+  width: 120px;
+}
+
+.select-button {
+  border: 1px solid #cdd7e1;
+  padding: 3px 12px;
+  border-radius: 4px;
+  color: #32383e;
+  background-color: #fbfcfe;
+  cursor: pointer;
+  width: 100%;
+}
+
+.select-button:focus-visible {
+  outline: 2px solid #0b6bcb;
+  outline-offset: -2px;
+}
+
+.select-option-list {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0;
+}
+
+.select-dropdown {
+  list-style-type: none;
+  padding: 6px 0px;
+  margin: 0;
+
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  width: fit-content;
+  border: 1px solid #cdd7e1;
+  border-radius: 4px;
+  z-index: 1000;
+  background-color: #fff;
+
+  box-shadow: 0 0 #000, 0px 2px 8px -2px rgba(21, 21, 21, 0.08),
+    0px 6px 12px -2px rgba(21, 21, 21, 0.08);
+
+  display: none;
+}
+
+.select-dropdown.open {
+  display: block;
+}
+
+.select-option {
+  text-wrap: nowrap;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+.select-option:hover {
+  background-color: #F0F4F8;
+}
+
+.select-option:focus-visible {
+  outline: 2px solid #0b6bcb;
+  outline-offset: -2px;
+}
+
+.select-option.selected {
+  background-color: #dde7ee;
+}
